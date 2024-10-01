@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .mobile-frame {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            background-color: #f2f2f2;
+            border: 9px solid #333;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-left: -150px;
+        }
+
+        .ui-container {
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .bankNamecontainer{
+            padding: 10px;
+            background-color: #ffffff;
+            margin-top:2px;
+        }
+        .back-icon {
+            font-size: 14px;
+            cursor: pointer;
+            color: red;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: black;
+            padding: 10px;
+        }
+        .bankCardContainer{
+            display: flex;
+            align-items: center;
+
+            color: black;
+
+        }
+        h1 {
+            margin: 0;
+            font-size: medium;
+            font-weight: bold;
+            color: black;
+        }
+        h2{
+            font-size: medium;
+            font-weight: bold;
+        }
+
+
+        img {
+            max-width: 50px;
+            margin-right:5px;
+
+        }
+       .account-section {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        #accountNumber {
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: transparent;
+            padding: 5px;
+            border:none;
+        }
+
+        #nextButton {
+            cursor: pointer;
+            background-color: red;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            width:90%;
+            margin-top: 239px;
+        }
+
+        #nextButton:disabled {
+            background-color: red;
+            cursor: not-allowed;
+        }
+
+        .form-group input {
+            background-color: #f7f4f4;
+        }
+        .form{
+        margin-top: 20px;
+        text-align:center;
+        }
+        .form-group {
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+      input:focus{
+        outline: none;
+    }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefox */
+        }
+        h4 {
+            color: lightgrey;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+          h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin:0;
+        }
+
+          .right{
+            text-align: right;
+        }
+        .left{
+            text-align: left;
+            font-weight:bold;
+        }
+        .cardDetails-container {
+            height: 478px; /* Set the desired height for the container */
+            overflow-y: auto; /* Enable vertical scrolling */
+              scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: transparent transparent; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+            background-color: #f0efee;
+        }
+        .cardDetails {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 11px;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f0efee;
+            color: black;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .col {
+            flex: 1;
+            text-align: center;
+        }
+
+        .card p {
+            margin: 1px;
+            font-size:14px;
+        }
+          .submit-button {
+            width: 75%;
+            padding: 7px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 45px;
+            cursor: pointer;
+            margin-top: 70px;
+        }
+        .btnConfirm{
+          text-align: center;
+        }
+
+         .cardSection {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 200px;
+            width: calc(100% - 200px);
+            max-width: 250px;
+            height: 100%;
+            background-color: #f7f7f7;
+            overflow-y: auto;
+            padding: 12px;
+            margin-right: 50px;
+            scrollbar-width: none; /* For Firefox */
+        }
+        .cardSection::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+
+        .api-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top:0;
+        }
+
+       .apicard {
+            display: flex;
+            align-items: flex-start;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+        .api-image {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .api-name {
+            font-size: 10px;
+            font-weight: bold;
+            flex-grow: 1;
+             margin-top:8px;
+        }
+        .special-card {
+            background-color: #ffcccc; /* Change background color to a different color */
+            border: 2px solid #ff0000; /* Add a border to highlight the card */
+        }
+
+        .backendContainer {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: calc(100% - 600px); /* Adjust width based on your requirements */
+            max-width: 180px;
+            height: 100%;
+            background-color: #f7f7f7;
+            overflow-y: auto;
+            padding: 20px;
+        }
+         .containerName {
+            text-align: center;
+        }
+
+        .backend-card {
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top:70px;
+        }
+        .backend-card img {
+            width:30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .backend-card .name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+       .connection-line {
+            position: absolute;
+            background-color: #FF6961;
+            height: 2px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+         .api-group {
+            background-color: #e3f2fd;
+            padding: 10px 10px 5px 10px;
+
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+<!--            margin-bottom: 10px;-->
+        }
+        .api-small-card {
+            margin:0 10px 0 10px;
+        }
+        .curvy-line {
+            stroke: #FF6961;
+            stroke-width: 2;
+            fill: none;
+        }
+        .straight-line {
+            stroke: #FF6961;
+            stroke-width: 2;
+        }
+
+
+        .connection-circle {
+            fill: #FF6961;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="center-container">
+    <div class="mobile-frame">
+        <div class="ui-container">
+
+            <div class="header">
+                <span class="back-icon">&#9665;</span>
+                <h1>Confirmation</h1>
+                <span class="close-icon">&#10006;</span>
+            </div>
+
+
+            <h4>Please check and confirm transaction details</h4>
+
+
+
+        </div>
+
+        <div class="cardDetails-container">
+            <form id="confirmationForm"  method="post" role="form" th:action="@{/moneyTransfered}">
+
+                <div class="card cardDetails">
+                    <div class="row">
+                        <div class="col">
+                            <p class="left" >Recepient</p>
+                        </div>
+                        <div class="col">
+                            <p class="right" th:text="${recepientBank}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card cardDetails">
+                    <div class="row">
+                        <div class="col">
+                            <p class="left" >Reciever Name</p>
+                        </div>
+                        <div class="col">
+                            <p class="right"  th:text="${recieverName}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card cardDetails">
+                    <div class="row">
+                        <div class="col">
+                            <p class="left" >Account No</p>
+                        </div>
+                        <div class="col">
+                            <p class="right" th:text="${destinationAccNumber}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card cardDetails">
+                    <div class="row">
+                        <div class="col">
+                            <p class="left">Amount</p>
+                        </div>
+                        <div class="col">
+                            <p class="right" th:text="${amount}">$</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card cardDetails">
+                    <div class="row">
+                        <div class="col">
+                            <p class="left">Description</p>
+                        </div>
+                        <div class="col">
+                            <p class="right" th:text="${Description}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btnConfirm">
+                    <button id="confirmButton" type="button" class="submit-button">Confirm</button>
+                </div>
+
+            </form>
+
+        </div>
+
+
+
+    </div>
+    <div class="cardSection">
+        <div class="api-container">
+            <h3 class="containerName">APIs</h3>
+            <div class="api-group">
+                <div class="apicard" id="linkAccountInit">
+                    <img th:src="@{/images/api.png}" alt="API 1" class="api-image">
+                    <span class="api-name">Link Account Init API</span>
+                </div>
+                <div class="apicard" id="linkAccountFinish">
+                    <img th:src="@{/images/api.png}" alt="API 3" class="api-image">
+                    <span class="api-name">Link Account Finish API</span>
+                </div>
+                <div class="apicard">
+                    <img th:src="@{/images/api.png}" alt="API 5" class="api-image">
+                    <span class="api-name">Unlink Account API</span>
+                </div>
+            </div>
+
+
+
+
+            <div class="api-group">
+                <div class="apicard">
+                    <img th:src="@{/images/api.png}" alt="API 7" class="api-image">
+                    <span class="api-name">Init Transaction API</span>
+                </div>
+                <div class="apicard" id="finishTransaction">
+                    <img th:src="@{/images/api.png}" alt="API 8" class="api-image">
+                    <span class="api-name">Finish Transaction API</span>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="api-group">
+                <div class="apicard">
+                    <img th:src="@{/images/api.png}" alt="API 6" class="api-image">
+                    <span class="api-name">Get Account Detail API</span>
+                </div>
+                <div class="apicard">
+                    <img th:src="@{/images/api.png}" alt="API 9" class="api-image">
+                    <span class="api-name">Get Account Transactions API</span>
+                </div>
+
+            </div>
+
+            <div class="apicard api-small-card">
+                <img th:src="@{/images/api.png}" alt="API 2" class="api-image">
+                <span class="api-name">Verify OTP API</span>
+            </div>
+
+            <div class="apicard api-small-card">
+                <img th:src="@{/images/api.png}" alt="API 4" class="api-image">
+                <span class="api-name">Authentication API</span>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="backendContainer">
+        <h3 class="containerName">Backend</h3>
+        <div class="backend-card" id="backendCard1">
+            <img th:src="@{/images/backend.png}"  alt="Backend Card Image">
+            <div class="name">NBC</div>
+        </div>
+        <div class="backend-card" id="backendCard2">
+            <img th:src="@{/images/backend.png}" alt="Backend Card Image">
+            <div class="name">CBS</div>
+        </div>
+    </div>
+    <svg id="polylineSvg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+
+        <path id="curvyPolyline1" class="curvy-line" d="" />
+        <!--        <circle id="connectionCircle1a" class="connection-circle" cx="0" cy="0" r="5" />-->
+        <circle id="connectionCircle1b" class="connection-circle" cx="0" cy="0" r="5" />
+
+
+        <path id="curvyPolyline2" class="curvy-line" d="" />
+        <circle id="connectionCircle2b" class="connection-circle" cx="0" cy="0" r="5" />
+
+        <line id="straightLine" class="curvy-line" x1="0" y1="0" x2="0" y2="0" />
+        <circle id="connectionCircle3" class="connection-circle" cx="0" cy="0" r="5" />
+
+    </svg>
+</div>
+
+<!-- Bootstrap JavaScript and dependencies (jQuery and Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script>
+
+    // Add event listener to the confirm button
+        document.getElementById('confirmButton').addEventListener('click', function () {
+            // Show the card section and backend container
+            var cardSection = document.querySelector('.cardSection');
+            var backendContainer = document.querySelector('.backendContainer');
+            var mobileFrame = document.querySelector('.mobile-frame');
+            var finishTransaction = document.getElementById('finishTransaction');
+            var backendCard1 = document.getElementById('backendCard1');
+            var backendCard2 = document.getElementById('backendCard2');
+
+            cardSection.style.display = 'block';
+            backendContainer.style.display = 'block';
+<!--            mobileFrame.style.marginLeft='-350px';-->
+            var apiCards = document.querySelectorAll('.apicard');
+            for (var i = 0; i < apiCards.length; i++) {
+                var apiName = apiCards[i].querySelector('.api-name').innerText;
+                if (apiName === 'Finish Transaction API') {
+                    apiCards[i].classList.add('special-card');
+                    break; // Exit the loop once the API card is found and highlighted
+                }
+            }
+
+             // Function to position and draw the curvy zigzag polyline
+                function drawCurvyPolyline(fromElement, toElement, polyline, circle2) {
+                    var fromRect = fromElement.getBoundingClientRect();
+                    var toRect = toElement.getBoundingClientRect();
+
+
+<!--                    var fromY = fromRect.top + fromRect.height / 2;-->
+                     var fromX = fromRect.right ; // Adjusting fromX closer to the "Next" button
+<!--                    var fromY = fromRect.bottom -45;-->
+                    var fromY = fromRect.top + fromRect.height / 2;
+                    var toX = toRect.left;
+                    var toY = toRect.top + toRect.height / 2;
+
+                    var midX1 = fromX + (toX - fromX) / 2.5;   // Adjusting midX1
+                    var midY1 = fromY + (toY - fromY) / 3.5;   // Adjusting midY1
+                    var midX2 = toX - (toX - fromX) / 2.5;     // Adjusting midX2
+                    var midY2 = toY - (toY - fromY) / 3.5;
+
+                    var pathData = `M${fromX},${fromY} Q${midX1},${midY1} ${midX2},${midY2} T${toX},${toY}`;
+                    polyline.setAttribute('d', pathData);
+
+<!--                    circle1.setAttribute('cx', midX1);-->
+<!--                    circle1.setAttribute('cy', midY1);-->
+
+                    circle2.setAttribute('cx', toX);
+                    circle2.setAttribute('cy', toY);
+                }
+
+                function drawStraightLine(fromElement, toElement, line, circle) {
+                    var fromRect = fromElement.getBoundingClientRect();
+                    var toRect = toElement.getBoundingClientRect();
+
+                    var fromX = fromRect.left + fromRect.width / 2;
+                    var fromY = fromRect.bottom;
+                    var toX = toRect.left + toRect.width / 2;
+                    var toY = toRect.top;
+
+                    line.setAttribute('x1', fromX);
+                    line.setAttribute('y1', fromY);
+                    line.setAttribute('x2', toX);
+                    line.setAttribute('y2', toY);
+
+                    circle.setAttribute('cx', toX);
+                    circle.setAttribute('cy', toY);
+                }
+
+                var polylineSvg = document.getElementById('polylineSvg');
+                var curvyPolyline1 = document.getElementById('curvyPolyline1');
+<!--                var connectionCircle1a = document.getElementById('connectionCircle1a');-->
+                var connectionCircle1b = document.getElementById('connectionCircle1b');
+                var curvyPolyline2 = document.getElementById('curvyPolyline2');
+<!--                var connectionCircle2a = document.getElementById('connectionCircle2a');-->
+                var connectionCircle2b = document.getElementById('connectionCircle2b');
+                var straightLine = document.getElementById('straightLine');
+                var connectionCircle3 = document.getElementById('connectionCircle3');
+
+                drawCurvyPolyline(mobileFrame, finishTransaction, curvyPolyline1, connectionCircle1b);
+                drawCurvyPolyline(finishTransaction, backendCard1, curvyPolyline2, connectionCircle2b);
+                drawStraightLine(backendCard1, backendCard2, straightLine, connectionCircle3);
+
+
+           setTimeout(() => {
+                          // Submit the form
+                       document.getElementById('confirmationForm').submit();
+
+                        cardSection.style.display = 'none';
+                        backendContainer.style.display = 'none';
+<!--                        mobileFrame.style.marginLeft = '0';-->
+<!--                             connectionLine.style.top = cardSectionCenterY + 'px';-->
+<!--                            connectionLine.style.height = '0';-->
+                    }, 9000);
+
+
+
+        });
+
+</script>
+
+</body>
+
+</html>
